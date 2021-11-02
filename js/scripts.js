@@ -2,6 +2,7 @@
 function Checkout() {
   this.tickets = {};
   this.ticketNumber = 0;
+  this.total = 0;
 }
 
 function Ticket(age, time, movie){
@@ -14,6 +15,7 @@ function Ticket(age, time, movie){
 Checkout.prototype.addTicket = function(ticket) {
   ticket.ticketNumber = this.addTicketNumber();
   this.tickets[ticket.ticketNumber] = ticket;
+  this.total += ticket.cost;
 }
 
 Checkout.prototype.addTicketNumber = function() {
@@ -48,10 +50,10 @@ Ticket.prototype.cost = function(){
     timeModifier = 3;
   }
 
-  if(this.movie === "dispatch"){
+  if(this.movie === "The French Dispatch"){
     movieModifier = 5;
   }
-  else if(this.movie === "dune"){
+  else if(this.movie === "Dune"){
     movieModifier = 10;
   }
   else{
@@ -75,8 +77,10 @@ $(document).ready(function() {
     // $(".output").html(newTicket.cost())
     $("ol#receipt").empty();
     for (let i = 1; i <= checkout.ticketNumber; i++) {
-      $("ol#receipt").append("<li id='" + checkout.tickets[i].ticketNumber + "'>" + checkout.tickets[i].movie + "</li>");
+      $("ol#receipt").append("<li id='" + checkout.tickets[i].ticketNumber + "'>" + checkout.tickets[i].movie + ", " + 
+      checkout.tickets[i].time + ", " + checkout.tickets[i].age + " = " + checkout.tickets[i].cost + "</li>");
     }
+    $("#output").html(checkout.total);
   });
 });
 
